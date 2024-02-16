@@ -63,6 +63,12 @@ public class DispositivoService {
             throw new AlreadyAssignedException("Il dispositivo è già assegnato ad un dipendente");
 
         }
+        if(dispositivo.getDisponibilita() == Disponibilita.IN_MANUTENZIONE){
+
+            throw new RuntimeException("Il dispositivo è attualmente in manutenzione");
+
+        }
+
         dispositivo.setDipendente(dipendente);
         dispositivo.setDisponibilita(Disponibilita.ASSEGNATO);
         return dispositivoRepository.save(dispositivo);
