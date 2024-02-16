@@ -1,5 +1,7 @@
 package it.epicode.w6d5.service;
 
+import it.epicode.w6d5.enums.Disponibilita;
+import it.epicode.w6d5.exception.AlreadyAssignedException;
 import it.epicode.w6d5.exception.NotFoundException;
 import it.epicode.w6d5.model.Dipendente;
 import it.epicode.w6d5.model.Dispositivo;
@@ -24,7 +26,7 @@ public class DispositivoService {
     }
 
     public Dispositivo getDispositivoById(int id) throws NotFoundException {
-        return dispositivoRepository.findById(id).orElseThrow(()->new NotFoundException("Dispositivo con id= " + id + " non trovato"));
+        return dispositivoRepository.findById(id).orElseThrow(()->new NotFoundException("Dispositivo con id = " + id + " non trovato"));
     }
 
     public Dispositivo saveDispositivo(DispositivoRequest dispositivoRequest){
@@ -55,7 +57,14 @@ public class DispositivoService {
 
         Dipendente dipendente = dipendenteService.getDipendenteById(idDipendente);
         Dispositivo dispositivo = getDispositivoById(idDispositivo);
+
+        if(dispositivo.getDisponibilita() == Disponibilita.ASSEGNATO){
+
+            throw new AlreadyAssignedException("Il dispositivo è già assegnato ad un dipendente");
+
+        }
         dispositivo.setDipendente(dipendente);
+        dispositivo.setDisponibilita(Disponibilita.ASSEGNATO);
         return dispositivoRepository.save(dispositivo);
 
     }
