@@ -39,7 +39,7 @@ public class DispositivoService {
     }
 
     public Dispositivo updateDispositivo(int id, DispositivoRequest dispositivoRequest) throws NotFoundException {
-        Dispositivo d = new Dispositivo();
+        Dispositivo d = getDispositivoById(id);
         d.setDipendente(dispositivoRequest.getDipendente());
         d.setDisponibilita(dispositivoRequest.getDisponibilita());
         d.setTipologia(dispositivoRequest.getTipologia());
